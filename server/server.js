@@ -21,24 +21,42 @@ console.log(`Environment: ${process.env.NODE_ENV}`);
 console.log(`Attempting to use port: ${PORT}`);
 
 const startApolloServer = async () => {
-  await server.start();
+  try {
+    await server.start();
 
-  app.use(express.urlencoded({ extended: false }));
-  app.use(express.json());
+    app.use(express.urlencoded({ extended: false }));
+    app.use(express.json());
 
+<<<<<<< HEAD
+    // Serve up static assets
+    app.use('/images', express.static(path.join(__dirname, '../client/images')));
+=======
   app.use('/images', express.static(path.join(__dirname, '../client/images')));
+>>>>>>> origin/main
 
-  app.use('/graphql', expressMiddleware(server, {
-    context: authMiddleware
-  }));
+    app.use('/graphql', expressMiddleware(server, {
+      context: authMiddleware
+    }));
 
-  if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/dist')));
+    if (process.env.NODE_ENV === 'production') {
+      app.use(express.static(path.join(__dirname, '../client/dist')));
 
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+      app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+      });
+    }
+
+    db.once('open', () => {
+      app.listen(PORT, () => {
+        console.log(`API server running on port ${PORT}!`);
+        console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
+      });
     });
+  } catch (error) {
+    console.error('Error starting Apollo Server:', error);
   }
+<<<<<<< HEAD
+=======
 
   try {
     await connectDb();
@@ -56,6 +74,7 @@ const startApolloServer = async () => {
     console.error('Error connecting to MongoDB:', error);
     process.exit(1); // Exit if MongoDB connection fails
   }
+>>>>>>> origin/main
 };
 
 startApolloServer();
