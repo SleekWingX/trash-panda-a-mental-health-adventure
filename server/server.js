@@ -49,6 +49,7 @@ const startApolloServer = async () => {
     });
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
+    process.exit(1); // Exit if MongoDB connection fails
   }
 };
 
