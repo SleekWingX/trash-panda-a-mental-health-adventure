@@ -43,7 +43,7 @@ const startApolloServer = async () => {
   try {
     await connectDb();
     mongoose.connection.once('open', () => {
-      app.listen(PORT, (err) => {
+      app.listen(PORT, '0.0.0.0', (err) => {
         if (err) {
           console.error('Error starting server:', err);
           process.exit(1);
