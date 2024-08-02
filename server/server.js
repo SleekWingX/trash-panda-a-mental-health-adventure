@@ -15,6 +15,11 @@ const server = new ApolloServer({
   resolvers,
 });
 
+// Additional logging for troubleshooting
+console.log('Starting server...');
+console.log(`Environment: ${process.env.NODE_ENV}`);
+console.log(`Attempting to use port: ${PORT}`);
+
 const startApolloServer = async () => {
   await server.start();
 
