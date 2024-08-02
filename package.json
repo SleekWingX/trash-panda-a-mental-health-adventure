@@ -1,5 +1,5 @@
 {
-  "name": "mern-shopping",
+  "name": "googlebooks-app",
   "version": "1.0.0",
   "description": "",
   "main": "server/server.js",
@@ -9,14 +9,11 @@
   "install": "cd server && npm i && cd ../client && npm i --production=false",
   "build": "cd client && npm run build",
   "render-build":"npm install && npm run build"
-    },
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
   "concurrently": "^8.2.0"
-  },
-  "dependencies": {
-    "dotenv": "^16.4.5"
   }
-}
+  }
