@@ -3,10 +3,11 @@ const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
 const path = require('path');
 const { authMiddleware } = require('./utils/auth');
+const connectDb = require('./config/connection');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
 const { typeDefs, resolvers } = require('./schemas');
-const db = require('./config/connection');
-
 const PORT = process.env.PORT || 3001;
 const app = express();
 const server = new ApolloServer({
@@ -14,7 +15,11 @@ const server = new ApolloServer({
   resolvers,
 });
 
-// Create a new instance of an Apollo server with the GraphQL schema
+// Additional logging for troubleshooting
+console.log('Starting server...');
+console.log(`Environment: ${process.env.NODE_ENV}`);
+console.log(`Attempting to use port: ${PORT}`);
+
 const startApolloServer = async () => {
   try {
     await server.start();
@@ -22,8 +27,12 @@ const startApolloServer = async () => {
     app.use(express.urlencoded({ extended: false }));
     app.use(express.json());
 
+<<<<<<< HEAD
     // Serve up static assets
     app.use('/images', express.static(path.join(__dirname, '../client/images')));
+=======
+  app.use('/images', express.static(path.join(__dirname, '../client/images')));
+>>>>>>> origin/main
 
     app.use('/graphql', expressMiddleware(server, {
       context: authMiddleware
@@ -46,7 +55,28 @@ const startApolloServer = async () => {
   } catch (error) {
     console.error('Error starting Apollo Server:', error);
   }
+<<<<<<< HEAD
+=======
+
+  try {
+    await connectDb();
+    mongoose.connection.once('open', () => {
+      app.listen(PORT, '0.0.0.0', (err) => {
+        if (err) {
+          console.error('Error starting server:', err);
+          process.exit(1);
+        }
+        console.log(`API server running on port ${PORT}!`);
+        console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
+      });
+    });
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error);
+    process.exit(1); // Exit if MongoDB connection fails
+  }
+>>>>>>> origin/main
 };
 
-// Call the async function to start the server
 startApolloServer();
+
+console.log(`Server is attempting to run on port: ${PORT}`);
