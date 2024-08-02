@@ -4,6 +4,7 @@ const { expressMiddleware } = require('@apollo/server/express4');
 const path = require('path');
 const { authMiddleware } = require('./utils/auth');
 const connectDb = require('./config/connection'); // Import the connection function
+const mongoose = require('mongoose'); // Ensure mongoose is defined
 require('dotenv').config(); // Load environment variables from .env file
 
 const { typeDefs, resolvers } = require('./schemas');
